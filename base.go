@@ -3,9 +3,11 @@ package bigops
 import (
 	"github.com/soopsio/bigops-go/req"
 	"go.uber.org/zap"
+	"fmt"
 )
 
-const BASEURL = "http://work.bigops.com/api"
+var BASEURL_P = "http://%s/api"
+var BASEURL = ""
 
 type BaseData struct {
 	Code    int    `json:"code"`
@@ -20,7 +22,8 @@ type Client struct {
 	logger    *zap.Logger
 }
 
-func NewClient(accessKey, secretKey string, debug bool, logger *zap.Logger) *Client {
+func NewClient(domain, accessKey, secretKey string, debug bool, logger *zap.Logger) *Client {
+	BASEURL = fmt.Sprintf(BASEURL_P, domain)
 	c := &Client{
 		AccessKey: accessKey,
 		SecretKey: secretKey,
